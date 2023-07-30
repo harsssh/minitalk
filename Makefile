@@ -39,7 +39,7 @@ run:
 
 .PHONY: send
 send:
-	@$(CLIENT_NAME) $(PID) $(MSG)
+	@$(CLIENT_NAME) $(shell pgrep minitalk-server) $(MSG)
 
 .PHONY: clean
 clean:
