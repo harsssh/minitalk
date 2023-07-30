@@ -1,38 +1,47 @@
-#include <signal.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "ft_stdio.h"
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/signal.h>
+#include <unistd.h>
 
-volatile bool received_confirmation = false;
+#define CHAR_BIT_LEN 8
+
+volatile sig_atomic_t	received_ack = 0;
 
 void	handle_ack(int signum)
 {
 	(void)signum;
-	received_confirmation = true;
+	received_ack = 1;
 }
 
 void	send_character(pid_t pid, char c)
 {
-	for (int bit = sizeof(char) * 8 - 1; bit >= 0; --bit)
+	unsigned int	bit;
+
+	bit = CHAR_BIT_LEN;
+	while (bit--)
 	{
-		kill(pid, (c & (1 << bit)) ? SIGUSR2 : SIGUSR1);
-		if (!received_confirmation)
+		ft_printf("send!\n");
+		if (c & (1 << bit))
+			kill(pid, SIGUSR2);
+		else
+			kill(pid, SIGUSR1);
+		if (!received_ack)
 			pause();
-		received_confirmation = false;
+		received_ack = 0;
 	}
 }
 
 void	send_message(pid_t pid, const char *message)
 {
-	for (const char *ch = message; *ch != '\0'; ++ch)
-		send_character(pid, *ch);
+	while (*message)
+		send_character(pid, *message++);
 }
 
 int	main(int argc, char *argv[])
 {
 	struct sigaction	act;
-	pid_t 				server_pid;
+	pid_t				server_pid;
 
 	if (argc != 3)
 	{

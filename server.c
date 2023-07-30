@@ -6,31 +6,34 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 02:33:13 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/29 14:43:53 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/30 09:46:14 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_stdio.h"
 #include <locale.h>
 #include <signal.h>
 #include <unistd.h>
-#include "ft_stdio.h"
 
 #define CHAR_BIT_LEN 8
 
 void	handle_signal_with_info(int signum, siginfo_t *info, void *context)
 {
-	static char	character = 0;
+	static char	c = 0;
 	static int	bits_received = 0;
 
+	ft_printf("arrived! (%d)\n", info->si_pid);
+	(void)c;
 	(void)context;
-	character <<= 1;
+	c <<= 1;
 	if (signum == SIGUSR2)
-		character |= 1;
+		c |= 1;
 	bits_received++;
-	if (bits_received == CHAR_BIT_LEN) {
-		write(STDOUT_FILENO, &character, 1);
+	if (bits_received == CHAR_BIT_LEN)
+	{
+		//write(STDOUT_FILENO, &c, 1);
 		bits_received = 0;
-		character = 0;
+		c = 0;
 	}
 	kill(info->si_pid, SIGUSR1);
 }
