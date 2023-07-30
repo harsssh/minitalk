@@ -12,7 +12,7 @@
 
 #include "stddef.h"
 
-int	ft_strany(char *str, int (*f)(int))
+int	ft_strany(const char *str, int (*f)(int))
 {
 	if (str == NULL || f == NULL)
 		return (0);
