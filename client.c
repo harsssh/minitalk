@@ -77,7 +77,7 @@ void	send_message(pid_t pid, const char *message)
 
 pid_t	parse_pid(const char *pid_str)
 {
-	pid_t			pid;
+	pid_t	pid;
 
 	if (*pid_str == '\0' || !ft_strall(pid_str, ft_isdigit))
 		return (-1);
