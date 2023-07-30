@@ -6,13 +6,13 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 02:33:13 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 15:10:15 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:49:40 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <locale.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #define CHAR_BIT_LEN 8
@@ -36,7 +36,11 @@ void	handle_request(int signum, siginfo_t *info, void *context)
 	}
 	if (info->si_pid != 0)
 		client_pid = info->si_pid;
-	kill(client_pid, SIGUSR1);
+	if (kill(client_pid, SIGUSR1) == -1)
+	{
+		ft_putendl_fd("Error: failed to send signal", STDERR_FILENO);
+		exit(1);
+	}
 }
 
 int	main(void)

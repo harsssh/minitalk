@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:25:51 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 17:47:13 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:48:27 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	wait_ack(void)
 		wait_time += ACK_WAIT;
 		if (wait_time > ACK_TIMEOUT)
 		{
-			ft_putendl_fd("timeout", STDERR_FILENO);
+			ft_putendl_fd("Error: timeout", STDERR_FILENO);
 			exit(1);
 		}
 	}
@@ -64,7 +64,7 @@ void	send_message(pid_t pid, const char *message)
 				res = kill(pid, SIGUSR1);
 			if (res == -1)
 			{
-				ft_putendl_fd("failed to send signal", STDERR_FILENO);
+				ft_putendl_fd("Error: failed to send signal", STDERR_FILENO);
 				exit(1);
 			}
 			wait_ack();
@@ -104,7 +104,7 @@ int	main(int argc, char *argv[])
 	server_pid = parse_pid(argv[1]);
 	if (server_pid == -1)
 	{
-		ft_putendl_fd("invalid pid", STDERR_FILENO);
+		ft_putendl_fd("Error: invalid pid", STDERR_FILENO);
 		return (1);
 	}
 	signal(SIGUSR1, handle_ack);
