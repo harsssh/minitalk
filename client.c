@@ -15,13 +15,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define CHAR_BIT_LEN 8
-#define ACK_WAIT 	10
-#define ACK_TIMEOUT 1000000
-#define ERR_TIMEOUT "Error: timeout"
-#define ERR_SEND 	"Error: failed to send signal"
-#define ERR_PID 	"Error: invalid PID"
-#define MSG_USAGE 	"Usage: client [server PID] [message]"
+#define CHAR_BIT_LEN	8
+#define ACK_WAIT 		10
+#define ACK_TIMEOUT 	1000000
+#define ERR_TIMEOUT 	"Error: timeout"
+#define ERR_SEND 		"Error: failed to send signal"
+#define ERR_PID 		"Error: invalid PID"
+#define MSG_USAGE 		"Usage: client [server PID] [message]"
 
 volatile sig_atomic_t	g_received_ack = 0;
 
@@ -77,16 +77,10 @@ void	send_message(pid_t pid, const char *message)
 
 pid_t	parse_pid(const char *pid_str)
 {
-	unsigned int	i;
 	pid_t			pid;
 
-	i = 0;
-	while (pid_str[i])
-	{
-		if (!ft_isdigit(pid_str[i]))
-			return (-1);
-		++i;
-	}
+	if (*pid_str == '\0' || !ft_strall(pid_str, ft_isdigit))
+		return (-1);
 	pid = ft_atoi(pid_str);
 	if (pid <= 0)
 		return (-1);
