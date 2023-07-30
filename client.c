@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:25:51 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 17:30:36 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:47:13 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	send_message(pid_t pid, const char *message)
 {
 	unsigned int	bit;
 	char			c;
+	int				res;
 
 	while (*message)
 	{
@@ -58,9 +59,14 @@ void	send_message(pid_t pid, const char *message)
 		while (bit--)
 		{
 			if (c & (1 << bit))
-				kill(pid, SIGUSR2);
+				res = kill(pid, SIGUSR2);
 			else
-				kill(pid, SIGUSR1);
+				res = kill(pid, SIGUSR1);
+			if (res == -1)
+			{
+				ft_putendl_fd("failed to send signal", STDERR_FILENO);
+				exit(1);
+			}
 			wait_ack();
 		}
 	}
