@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:25:51 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 17:29:54 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:30:36 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int argc, char *argv[])
 	server_pid = parse_pid(argv[1]);
 	if (server_pid == -1)
 	{
-		ft_putstr_fd("invalid pid", STDERR_FILENO);
+		ft_putendl_fd("invalid pid", STDERR_FILENO);
 		return (1);
 	}
 	signal(SIGUSR1, handle_ack);
