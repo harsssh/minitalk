@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:25:51 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 17:26:17 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:29:54 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	wait_ack(void)
 		wait_time += ACK_WAIT;
 		if (wait_time > ACK_TIMEOUT)
 		{
-			ft_putstr_fd("timeout", STDERR_FILENO);
+			ft_putendl_fd("timeout", STDERR_FILENO);
 			exit(1);
 		}
 	}
