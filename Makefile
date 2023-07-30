@@ -33,6 +33,14 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 $(LIBFT):
 	make -C libft
 
+.PHONY: run
+run:
+	@$(SERVER_NAME)
+
+.PHONY: send
+send:
+	@$(CLIENT_NAME) $(PID) $(MSG)
+
 .PHONY: clean
 clean:
 	make -C libft clean
