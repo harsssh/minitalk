@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 01:01:27 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/06/13 01:01:28 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/31 00:42:32 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memset(void *b, int c, size_t len);
 char	**ft_split(char const *s, char c);
+int		ft_strall(char *str, int (*f)(char));
+int		ft_strany(char *str, int (*f)(char));
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *src);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));

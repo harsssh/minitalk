@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 02:33:13 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 17:49:40 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/31 02:01:12 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(void)
 	act.sa_sigaction = handle_request;
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
-	ft_printf("Server PID: %d\n", getpid());
+	ft_dprintf(STDOUT_FILENO, "Server PID: %d\n", getpid());
 	while (1)
 		pause();
 	return (0);

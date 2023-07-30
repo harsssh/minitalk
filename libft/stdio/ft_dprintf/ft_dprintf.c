@@ -1,47 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 20:42:37 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/05/24 15:01:31 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/31 01:57:49 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "internal.h"
 #include "ft_stdio.h"
+#include "ft_string.h"
+#include "internal.h"
 #include <stdarg.h>
-#include <stdio.h>
 #include <unistd.h>
 
-static size_t	print_placeholder(const t_placeholder ph, va_list *args)
+static ssize_t	write_byte(int fd, unsigned char c)
+{
+	return (write(fd, &c, 1));
+}
+
+static ssize_t	write_string(int fd, const char *s)
+{
+	if (!s)
+		return (write_string(fd, "(null)"));
+	return (write(fd, s, ft_strlen(s)));
+}
+
+static size_t	print_placeholder(int fd, const t_placeholder ph, va_list *args)
 {
 	if (ph.specifier == CHAR)
-		return (ft_putchar((unsigned char)(va_arg(*args, int))));
+		return (write_byte(fd, (unsigned char)(va_arg(*args, int))));
 	if (ph.specifier == STRING)
-		return (ft_putstr(va_arg(*args, char *)));
+		return (write_string(fd, va_arg(*args, char *)));
 	if (ph.specifier == DECIMAL)
-		return (ft_putnbr_base(va_arg(*args, int), DECIMAL_BASE));
+		return (ft_putnbr_base(fd, va_arg(*args, int), DECIMAL_BASE));
 	if (ph.specifier == U_DECIMAL)
-		return (ft_putunbr_base(va_arg(*args, unsigned int), DECIMAL_BASE));
+		return (ft_putunbr_base(fd, va_arg(*args, unsigned int), DECIMAL_BASE));
 	if (ph.specifier == HEX)
-		return (ft_putunbr_base(va_arg(*args, unsigned int), HEX_BASE));
+		return (ft_putunbr_base(fd, va_arg(*args, unsigned int), HEX_BASE));
 	if (ph.specifier == HEX_UP)
-		return (ft_putunbr_base(va_arg(*args, unsigned int), HEX_BASE_UP));
+		return (ft_putunbr_base(fd, va_arg(*args, unsigned int), HEX_BASE_UP));
 	if (ph.specifier == POINTER)
 	{
 		ft_putstr_fd("0x", STDOUT_FILENO);
-		return (2 + ft_putunbr_base((uintptr_t)va_arg(*args, void *),
+		return (2 + ft_putunbr_base(fd, (uintptr_t)va_arg(*args, void *),
 				HEX_BASE));
 	}
 	if (ph.specifier == PERCENT)
-		return (ft_putchar('%'));
+		return (write_byte(fd, '%'));
 	return (0);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
 	va_list			args;
 	t_placeholder	ph;
@@ -54,10 +66,10 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format = parse_placeholder(&ph, format);
-			len += print_placeholder(ph, &args);
+			len += print_placeholder(fd, ph, &args);
 		}
 		else
-			len += ft_putchar(*format++);
+			len += write(fd, format++, 1);
 	}
 	va_end(args);
 	return (len);

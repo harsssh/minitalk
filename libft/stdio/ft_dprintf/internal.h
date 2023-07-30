@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 11:09:45 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/05/24 15:57:45 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/31 01:37:33 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ typedef struct s_placeholder	t_placeholder;
 t_flag	to_flag(char c);
 t_spec	to_specifier(char c);
 char	*parse_placeholder(t_placeholder *p, const char *s);
-size_t	ft_putnbr_base(long long nbr, char *base);
-size_t	ft_putunbr_base(unsigned long long nbr, char *base);
-size_t	ft_putchar(char c);
-size_t	ft_putstr(char *s);
+size_t	ft_putnbr_base(int fd, long long nbr, char *base);
+size_t	ft_putunbr_base(int fd, unsigned long long nbr, char *base);
 
 #endif

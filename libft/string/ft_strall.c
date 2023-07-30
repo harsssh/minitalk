@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   ft_strall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 13:06:14 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/05/24 13:40:37 by kemizuki         ###   ########.fr       */
+/*   Created: 2023/07/31 00:41:54 by kemizuki          #+#    #+#             */
+/*   Updated: 2023/07/31 00:41:56 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_stdio.h"
-#include <stddef.h>
-#include <unistd.h>
+#include "stddef.h"
 
-size_t	ft_putchar(char c)
+int	ft_strall(char *str, int (*f)(char))
 {
-	ft_putchar_fd(c, STDOUT_FILENO);
+	if (str == NULL || f == NULL)
+		return (0);
+	while (*str)
+	{
+		if (!f(*str))
+			return (0);
+		str++;
+	}
 	return (1);
-}
-
-size_t	ft_putstr(char *s)
-{
-	if (s == NULL)
-		return (ft_putstr("(null)"));
-	ft_putstr_fd(s, STDOUT_FILENO);
-	return (ft_strlen(s));
 }

@@ -6,7 +6,7 @@
 /*   By: kemizuki <kemizuki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:25:51 by kemizuki          #+#    #+#             */
-/*   Updated: 2023/07/30 17:48:27 by kemizuki         ###   ########.fr       */
+/*   Updated: 2023/07/31 02:02:51 by kemizuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,8 @@ int	main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		ft_putstr_fd("Usage: ", STDERR_FILENO);
-		ft_putstr_fd(argv[0], STDERR_FILENO);
-		ft_putendl_fd(" <server_pid> <message>", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "Usage: %s <server_pid> <message>\n",
+				argv[0]);
 		return (1);
 	}
 	server_pid = parse_pid(argv[1]);
