@@ -15,7 +15,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define CHAR_BIT_LEN 8
+#define CHAR_BIT_LEN 	8
+#define ERR_SEND 		"Error: failed to send signal"
+#define MSG_PID_FORMAT 	"Server PID: %d\n"
 
 void	handle_request(int signum, siginfo_t *info, void *context)
 {
@@ -38,7 +40,7 @@ void	handle_request(int signum, siginfo_t *info, void *context)
 		client_pid = info->si_pid;
 	if (kill(client_pid, SIGUSR1) == -1)
 	{
-		ft_putendl_fd("Error: failed to send signal", STDERR_FILENO);
+		ft_putendl_fd(ERR_SEND, STDERR_FILENO);
 		exit(1);
 	}
 }
@@ -52,7 +54,7 @@ int	main(void)
 	act.sa_sigaction = handle_request;
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
-	ft_dprintf(STDOUT_FILENO, "Server PID: %d\n", getpid());
+	ft_dprintf(STDOUT_FILENO, MSG_PID_FORMAT, getpid());
 	while (1)
 		pause();
 	return (0);

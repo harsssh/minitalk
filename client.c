@@ -10,15 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_stdio.h"
 #include "libft.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 #define CHAR_BIT_LEN 8
-#define ACK_WAIT 10
+#define ACK_WAIT 	10
 #define ACK_TIMEOUT 1000000
+#define ERR_TIMEOUT "Error: timeout"
+#define ERR_SEND 	"Error: failed to send signal"
+#define ERR_PID 	"Error: invalid PID"
+#define MSG_USAGE 	"Usage: client [server PID] [message]"
 
 volatile sig_atomic_t	g_received_ack = 0;
 
@@ -39,7 +42,7 @@ void	wait_ack(void)
 		wait_time += ACK_WAIT;
 		if (wait_time > ACK_TIMEOUT)
 		{
-			ft_putendl_fd("Error: timeout", STDERR_FILENO);
+			ft_putendl_fd(ERR_TIMEOUT, STDERR_FILENO);
 			exit(1);
 		}
 	}
@@ -64,7 +67,7 @@ void	send_message(pid_t pid, const char *message)
 				res = kill(pid, SIGUSR1);
 			if (res == -1)
 			{
-				ft_putendl_fd("Error: failed to send signal", STDERR_FILENO);
+				ft_putendl_fd(ERR_SEND, STDERR_FILENO);
 				exit(1);
 			}
 			wait_ack();
@@ -96,14 +99,13 @@ int	main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		ft_dprintf(STDERR_FILENO, "Usage: %s <server_pid> <message>\n",
-				argv[0]);
+		ft_putendl_fd(MSG_USAGE, STDERR_FILENO);
 		return (1);
 	}
 	server_pid = parse_pid(argv[1]);
 	if (server_pid == -1)
 	{
-		ft_putendl_fd("Error: invalid pid", STDERR_FILENO);
+		ft_putendl_fd(ERR_PID, STDERR_FILENO);
 		return (1);
 	}
 	signal(SIGUSR1, handle_ack);
