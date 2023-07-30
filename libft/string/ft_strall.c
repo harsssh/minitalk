@@ -12,7 +12,7 @@
 
 #include "stddef.h"
 
-int	ft_strall(char *str, int (*f)(char))
+int	ft_strall(char *str, int (*f)(int))
 {
 	if (str == NULL || f == NULL)
 		return (0);
