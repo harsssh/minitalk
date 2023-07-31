@@ -6,7 +6,7 @@ LIBFT:=libft/libft.a
 SRC_DIR=.
 BUILD_DIR:=build
 
-CFLAGS:=-g -Wall -Wextra -Werror -Ilibft/include
+CFLAGS:=-Wall -Wextra -Werror -Ilibft/include
 
 SERVER_SRC:=server.c
 CLIENT_SRC:=client.c
@@ -15,6 +15,9 @@ CLIENT_OBJ:=$(addprefix $(BUILD_DIR)/,$(CLIENT_SRC:.c=.o))
 
 .PHONY: all
 all: $(SERVER_NAME) $(CLIENT_NAME)
+
+.PHONY: bonus
+bonus: all
 
 $(SERVER_NAME): $(LIBFT) $(SERVER_OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
